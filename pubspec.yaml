@@ -34,6 +34,8 @@ dependencies:
   firebase_core: ^1.19.2
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.0.1
+  fluttertoast: ^8.0.9
   get: ^4.6.5
   google_sign_in: ^5.4.0
   lint: ^1.8.2

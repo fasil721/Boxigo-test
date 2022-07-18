@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:machine_test/pages/signup_page/signup_page.dart';
+import 'package:machine_test/services/auth_service.dart';
 
 class WelcomePage extends StatelessWidget {
   @override
@@ -82,21 +83,8 @@ class WelcomePage extends StatelessWidget {
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: () {},
-                            style: ButtonStyle(
-                              foregroundColor: MaterialStateProperty.all<Color>(
-                                const Color(0xff14B8A6),
-                              ),
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                Colors.white,
-                              ),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(24.0),
-                                ),
-                              ),
-                            ),
+                            onPressed: () => AuthService.signInWithGoogle(),
+                            style: _buttonStyle(),
                             child: const Padding(
                               padding: EdgeInsets.all(14.0),
                               child: Text(
@@ -115,4 +103,20 @@ class WelcomePage extends StatelessWidget {
           ),
         ),
       );
+
+  ButtonStyle _buttonStyle() {
+    return ButtonStyle(
+      foregroundColor: MaterialStateProperty.all<Color>(
+        const Color(0xff14B8A6),
+      ),
+      backgroundColor: MaterialStateProperty.all<Color>(
+        Colors.white,
+      ),
+      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24.0),
+        ),
+      ),
+    );
+  }
 }
