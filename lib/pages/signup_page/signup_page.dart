@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:machine_test/pages/signin/signin_page.dart';
 import 'package:machine_test/pages/signup_page/bloc/signup_bloc.dart';
-import 'package:machine_test/services/auth_service.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -16,6 +15,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final phoneNoController = TextEditingController();
+  final fullnameController = TextEditingController();
 
   @override
   void dispose() {
@@ -67,7 +67,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   fit: BoxFit.fill,
                                 ),
                               ),
-                              SizedBox(height: Get.height * 0.025),
+                              SizedBox(height: Get.height * 0.015),
                               const Text(
                                 'Sign up',
                                 style: TextStyle(
@@ -75,7 +75,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(height: Get.height * 0.02),
+                              SizedBox(height: Get.height * 0.01),
                               const Text(
                                 "Add your Detials and Sign up and explore the app",
                                 style: TextStyle(
@@ -88,10 +88,10 @@ class _SignUpPageState extends State<SignUpPage> {
                             ],
                           ),
                         ),
-                        SizedBox(height: Get.height * 0.03),
+                        SizedBox(height: Get.height * 0.02),
                         FadeInUp(
                           child: Container(
-                            padding: const EdgeInsets.all(25),
+                            padding: const EdgeInsets.all(20),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(12),
@@ -100,6 +100,15 @@ class _SignUpPageState extends State<SignUpPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 TextField(
+                                  controller: fullnameController,
+                                  keyboardType: TextInputType.text,
+                                  textInputAction: TextInputAction.next,
+                                  style: _textStyle(),
+                                  decoration:
+                                      _textFieldDecoration('Enter Full Name'),
+                                ),
+                                SizedBox(height: Get.height * .015),
+                                TextField(
                                   controller: emailController,
                                   keyboardType: TextInputType.text,
                                   textInputAction: TextInputAction.next,
@@ -107,7 +116,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   decoration:
                                       _textFieldDecoration('Enter Email'),
                                 ),
-                                SizedBox(height: Get.height * .025),
+                                SizedBox(height: Get.height * .015),
                                 TextField(
                                   controller: passwordController,
                                   keyboardType: TextInputType.text,
@@ -116,7 +125,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   decoration:
                                       _textFieldDecoration("Enter Password"),
                                 ),
-                                SizedBox(height: Get.height * .025),
+                                SizedBox(height: Get.height * .015),
                                 TextField(
                                   controller: phoneNoController,
                                   keyboardType: TextInputType.phone,
@@ -125,7 +134,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   decoration:
                                       _textFieldDecoration("Enter Phone No"),
                                 ),
-                                SizedBox(height: Get.height * .025),
+                                SizedBox(height: Get.height * .015),
                                 SizedBox(
                                   height: 45,
                                   width: double.infinity,
@@ -136,6 +145,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                             passwordController.text.trim(),
                                         email: emailController.text.trim(),
                                         phoneNo: phoneNoController.text.trim(),
+                                        name: fullnameController.text.trim(),
                                       ),
                                     ),
                                     style: ButtonStyle(
@@ -210,7 +220,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   height: 45,
                                   child: ElevatedButton(
                                     onPressed: () =>
-                                        AuthService.signInWithGoogle(),
+                                        bloc.add(GoogleSignUpEvent()),
                                     style: ButtonStyle(
                                       foregroundColor:
                                           MaterialStateProperty.all<Color>(

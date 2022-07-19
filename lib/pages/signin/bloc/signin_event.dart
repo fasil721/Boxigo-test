@@ -11,3 +11,5 @@ class UserSignInEvent extends SigninEvent {
     required this.email,
   });
 }
+
+class GoogleSignInEvent extends SigninEvent {}

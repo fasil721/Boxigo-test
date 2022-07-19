@@ -8,6 +8,7 @@ part 'signin_state.dart';
 class SigninBloc extends Bloc<SigninEvent, SigninState> {
   SigninBloc() : super(SigninInitial()) {
     on<UserSignInEvent>(_singUpWithEmailAndPassWord);
+    on<GoogleSignInEvent>((event, emit) => AuthService.signInWithGoogle());
   }
   void _singUpWithEmailAndPassWord(
     UserSignInEvent event,

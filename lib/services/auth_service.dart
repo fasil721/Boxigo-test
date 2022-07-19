@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:machine_test/pages/home/home_page.dart';
+import 'package:machine_test/services/firestore_service.dart';
 import 'package:machine_test/utils/flutter_toast.dart';
 
 class AuthService {
@@ -21,8 +22,17 @@ class AuthService {
         );
 
         await FirebaseAuth.instance.signInWithCredential(credential).then(
-              (value) => Get.offAll(() => const HomePage()),
-            );
+          (creadential) {
+            if (creadential.user != null) {
+              FirestoreService.postDetailsToFirestore(
+                uid: creadential.user!.uid,
+                fullName: creadential.user!.displayName ?? '',
+                phoneNo: creadential.user!.phoneNumber ?? '',
+                email: creadential.user!.email ?? '',
+              );
+            }
+          },
+        );
       }
     } on FirebaseAuthException catch (err) {
       log("error code: ${err.code}");
@@ -39,14 +49,20 @@ class AuthService {
   static Future<void> signUpWithEmailAndPassword(
     String email,
     String password,
+    String fulllName,
+    String phoneNo,
   ) async {
     final auth = FirebaseAuth.instance;
     try {
       await auth
           .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) {
-        log('Sign up successfully');
-        Get.offAll(() => const HomePage());
+          .then((creadential) {
+        FirestoreService.postDetailsToFirestore(
+          uid: creadential.user!.uid,
+          fullName: fulllName,
+          phoneNo: phoneNo,
+          email: email,
+        );
       });
     } on FirebaseAuthException catch (err) {
       log("error code: ${err.code}");
@@ -70,8 +86,8 @@ class AuthService {
     try {
       await auth
           .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) {
-        log('Sign in successfully');
+          .then((user) {
+        log('Sign up successfully');
         Get.offAll(() => const HomePage());
       });
     } on FirebaseAuthException catch (err) {

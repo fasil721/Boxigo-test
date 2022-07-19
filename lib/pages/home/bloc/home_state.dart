@@ -5,7 +5,7 @@ abstract class HomeState {}
 class HomeInitial extends HomeState {}
 
 class UserDataLoaded extends HomeState {
-  final User? user;
+  final UserModel? usermodel;
 
-  UserDataLoaded({this.user});
+  UserDataLoaded({this.usermodel});
 }

@@ -8,6 +8,7 @@ part 'signup_state.dart';
 class SignupBloc extends Bloc<SignupEvent, SignupState> {
   SignupBloc() : super(SignupInitial()) {
     on<UserSignUpEvent>(_singUpWithEmailAndPassWord);
+    on<GoogleSignUpEvent>((event, emit) => AuthService.signInWithGoogle());
   }
   void _singUpWithEmailAndPassWord(
     UserSignUpEvent event,
@@ -17,9 +18,15 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       email: event.email,
       password: event.password,
       phoneNo: event.phoneNo,
+      name: event.name,
     );
     if (isValid) {
-      AuthService.signUpWithEmailAndPassword(event.email, event.password);
+      AuthService.signUpWithEmailAndPassword(
+        event.email,
+        event.password,
+        event.name,
+        event.phoneNo,
+      );
     }
   }
 
@@ -27,6 +34,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     required String password,
     required String email,
     required String phoneNo,
+    required String name,
   }) {
     if (email.isEmpty) {
       showErrorToast("Please Enter Your Email");
@@ -41,6 +49,13 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       return false;
     } else if (phoneNo.length != 10) {
       showErrorToast("Please Enter a valid PhoneNo");
+      return false;
+    }
+    if (name.isEmpty) {
+      showErrorToast("Fullname no is required");
+      return false;
+    } else if (name.length < 3) {
+      showErrorToast("Full name must be atleast 3 charector");
       return false;
     }
     if (password.isEmpty) {

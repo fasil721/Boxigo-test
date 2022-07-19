@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:machine_test/pages/signin/bloc/signin_bloc.dart';
 import 'package:machine_test/pages/signup_page/signup_page.dart';
-import 'package:machine_test/services/auth_service.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -110,7 +109,7 @@ class _SignInPageState extends State<SignInPage> {
                                 TextField(
                                   controller: passwordController,
                                   keyboardType: TextInputType.text,
-                                  textInputAction: TextInputAction.next,
+                                  textInputAction: TextInputAction.done,
                                   style: _textStyle(),
                                   decoration:
                                       _textFieldDecoration("Enter Password"),
@@ -199,7 +198,7 @@ class _SignInPageState extends State<SignInPage> {
                                   height: 45,
                                   child: ElevatedButton(
                                     onPressed: () =>
-                                        AuthService.signInWithGoogle(),
+                                        bloc.add(GoogleSignInEvent()),
                                     style: ButtonStyle(
                                       foregroundColor:
                                           MaterialStateProperty.all<Color>(
