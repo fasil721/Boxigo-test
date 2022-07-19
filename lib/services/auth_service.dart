@@ -19,9 +19,10 @@ class AuthService {
           idToken: googleAuth.idToken,
           accessToken: googleAuth.accessToken,
         );
-        final userCredential =
-            await FirebaseAuth.instance.signInWithCredential(credential);
-        log("is new user : ${userCredential.additionalUserInfo?.isNewUser}");
+
+        await FirebaseAuth.instance.signInWithCredential(credential).then(
+              (value) => Get.offAll(() => const HomePage()),
+            );
       }
     } on FirebaseAuthException catch (err) {
       log("error code: ${err.code}");

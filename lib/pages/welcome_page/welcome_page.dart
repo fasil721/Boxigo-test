@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:machine_test/pages/signup_page/signup_page.dart';
 import 'package:machine_test/services/auth_service.dart';
 
+import '../signin/signin_page.dart';
+
 class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -83,7 +85,8 @@ class WelcomePage extends StatelessWidget {
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: () => AuthService.signInWithGoogle(),
+                           
+                            onPressed: () => Get.to(() => SignInPage()),
                             style: _buttonStyle(),
                             child: const Padding(
                               padding: EdgeInsets.all(14.0),

@@ -3,17 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:machine_test/pages/signup_page/bloc/signup_bloc.dart';
+import 'package:machine_test/pages/signin/bloc/signin_bloc.dart';
+import 'package:machine_test/pages/signup_page/signup_page.dart';
+import 'package:machine_test/services/auth_service.dart';
 
-class SignUpPage extends StatefulWidget {
+class SignInPage extends StatefulWidget {
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<SignInPage> createState() => _SignInPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignInPageState extends State<SignInPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final phoneNoController = TextEditingController();
 
   @override
   void dispose() {
@@ -23,10 +24,10 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) => BlocProvider(
-        create: (context) => SignupBloc(),
-        child: BlocBuilder<SignupBloc, SignupState>(
+        create: (context) => SigninBloc(),
+        child: BlocBuilder<SigninBloc, SigninState>(
           builder: (context, state) {
-            final bloc = BlocProvider.of<SignupBloc>(context);
+            final bloc = BlocProvider.of<SigninBloc>(context);
             return Scaffold(
               resizeToAvoidBottomInset: true,
               backgroundColor: const Color(0xfff7f6fb),
@@ -67,7 +68,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               ),
                               SizedBox(height: Get.height * 0.025),
                               const Text(
-                                'Registration',
+                                'SignIn',
                                 style: TextStyle(
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold,
@@ -75,7 +76,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               ),
                               SizedBox(height: Get.height * 0.02),
                               const Text(
-                                "Add your phone number. we'll send you a verification code so we know you're real",
+                                "Add your Detials and Sign in and explore the app",
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
@@ -115,25 +116,15 @@ class _SignUpPageState extends State<SignUpPage> {
                                       _textFieldDecoration("Enter Password"),
                                 ),
                                 SizedBox(height: Get.height * .025),
-                                TextField(
-                                  controller: phoneNoController,
-                                  keyboardType: TextInputType.phone,
-                                  textInputAction: TextInputAction.done,
-                                  style: _textStyle(),
-                                  decoration:
-                                      _textFieldDecoration("Enter Phone No"),
-                                ),
-                                SizedBox(height: Get.height * .025),
                                 SizedBox(
                                   height: 45,
                                   width: double.infinity,
                                   child: ElevatedButton(
                                     onPressed: () => bloc.add(
-                                      UserSignUpEvent(
+                                      UserSignInEvent(
                                         password:
                                             passwordController.text.trim(),
                                         email: emailController.text.trim(),
-                                        phoneNo: phoneNoController.text.trim(),
                                       ),
                                     ),
                                     style: ButtonStyle(
@@ -164,11 +155,90 @@ class _SignUpPageState extends State<SignUpPage> {
                                         //   )
                                         // :
                                         const Text(
-                                      'Register',
+                                      'Sign In',
                                       style: TextStyle(fontSize: 16),
                                     ),
                                   ),
-                                )
+                                ),
+                                SizedBox(height: Get.height * .01),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    const Text(
+                                      "Don't have an account ? ",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black38,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    InkWell(
+                                      onTap: () => Get.off(() => SignUpPage()),
+                                      child: const Text(
+                                        "Sign up",
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          decoration: TextDecoration.underline,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xff14B8A6),
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 5)
+                                  ],
+                                ),
+                                SizedBox(height: Get.height * .01),
+                                const Text(
+                                  "- OR -",
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                                SizedBox(height: Get.height * .01),
+                                SizedBox(
+                                  height: 45,
+                                  child: ElevatedButton(
+                                    onPressed: () =>
+                                        AuthService.signInWithGoogle(),
+                                    style: ButtonStyle(
+                                      foregroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                        Colors.white,
+                                      ),
+                                      padding: MaterialStateProperty.all(
+                                        const EdgeInsets.all(5),
+                                      ),
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                        const Color(0xff14B8A6),
+                                      ),
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                        ),
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                          child:
+                                              Image.asset("assets/g-icon.png"),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        const Text(
+                                          "Sign in with Google",
+                                          style: TextStyle(fontSize: 16),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:machine_test/pages/signin/signin_page.dart';
 import 'package:machine_test/pages/signup_page/bloc/signup_bloc.dart';
+import 'package:machine_test/services/auth_service.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -55,7 +57,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           child: Column(
                             children: [
                               Container(
-                                width: Get.width * 0.5,
+                                width: Get.width * 0.4,
                                 decoration: BoxDecoration(
                                   color: Colors.deepPurple.shade50,
                                   shape: BoxShape.circle,
@@ -67,7 +69,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               ),
                               SizedBox(height: Get.height * 0.025),
                               const Text(
-                                'Registration',
+                                'Sign up',
                                 style: TextStyle(
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold,
@@ -75,7 +77,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               ),
                               SizedBox(height: Get.height * 0.02),
                               const Text(
-                                "Add your phone number. we'll send you a verification code so we know you're real",
+                                "Add your Detials and Sign up and explore the app",
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
@@ -86,7 +88,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             ],
                           ),
                         ),
-                        SizedBox(height: Get.height * 0.04),
+                        SizedBox(height: Get.height * 0.03),
                         FadeInUp(
                           child: Container(
                             padding: const EdgeInsets.all(25),
@@ -164,8 +166,87 @@ class _SignUpPageState extends State<SignUpPage> {
                                         //   )
                                         // :
                                         const Text(
-                                      'Register',
+                                      'Sign up',
                                       style: TextStyle(fontSize: 16),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: Get.height * .01),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    const Text(
+                                      "Already have an account ? ",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black38,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    InkWell(
+                                      onTap: () => Get.off(() => SignInPage()),
+                                      child: const Text(
+                                        "Sign in",
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          decoration: TextDecoration.underline,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xff14B8A6),
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 5)
+                                  ],
+                                ),
+                                SizedBox(height: Get.height * .01),
+                                const Text(
+                                  "- OR -",
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                                SizedBox(height: Get.height * .01),
+                                SizedBox(
+                                  height: 45,
+                                  child: ElevatedButton(
+                                    onPressed: () =>
+                                        AuthService.signInWithGoogle(),
+                                    style: ButtonStyle(
+                                      foregroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                        Colors.white,
+                                      ),
+                                      padding: MaterialStateProperty.all(
+                                        const EdgeInsets.all(5),
+                                      ),
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                        const Color(0xff14B8A6),
+                                      ),
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                        ),
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                          child:
+                                              Image.asset("assets/g-icon.png"),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        const Text(
+                                          "Sign up with Google",
+                                          style: TextStyle(fontSize: 16),
+                                        )
+                                      ],
                                     ),
                                   ),
                                 )
