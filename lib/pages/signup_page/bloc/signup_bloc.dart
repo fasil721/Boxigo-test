@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:machine_test/services/auth_service.dart';
-import 'package:machine_test/utils/flutter_toast.dart';
+import 'package:machine_test/utils/utils.dart';
 
 part 'signup_event.dart';
 part 'signup_state.dart';
@@ -10,17 +10,20 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     on<UserSignUpEvent>(_singUpWithEmailAndPassWord);
     on<GoogleSignUpEvent>((event, emit) => AuthService.signInWithGoogle());
   }
+  //sign up the user using email and password
   void _singUpWithEmailAndPassWord(
     UserSignUpEvent event,
     Emitter<SignupState> emit,
   ) {
-    final isValid = _validate(
+    //validating the user given datas. if it's not valid this funcion will return false
+    final isValid = Utils.validateSignUpForm(
       email: event.email,
       password: event.password,
       phoneNo: event.phoneNo,
       name: event.name,
-    );
+    ); //checking is data valdited or not
     if (isValid) {
+      // sign up the user
       AuthService.signUpWithEmailAndPassword(
         event.email,
         event.password,
@@ -28,43 +31,5 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
         event.phoneNo,
       );
     }
-  }
-
-  bool _validate({
-    required String password,
-    required String email,
-    required String phoneNo,
-    required String name,
-  }) {
-    if (email.isEmpty) {
-      showErrorToast("Please Enter Your Email");
-      return false;
-    } else if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-        .hasMatch(email)) {
-      showErrorToast("Please Enter a valid email");
-      return false;
-    }
-    if (phoneNo.isEmpty) {
-      showErrorToast("Phone no is required");
-      return false;
-    } else if (phoneNo.length != 10) {
-      showErrorToast("Please Enter a valid PhoneNo");
-      return false;
-    }
-    if (name.isEmpty) {
-      showErrorToast("Fullname no is required");
-      return false;
-    } else if (name.length < 3) {
-      showErrorToast("Full name must be atleast 3 charector");
-      return false;
-    }
-    if (password.isEmpty) {
-      showErrorToast("password is required");
-      return false;
-    } else if (password.length < 6) {
-      showErrorToast("Password must be atleast 6 digits");
-      return false;
-    }
-    return true;
   }
 }

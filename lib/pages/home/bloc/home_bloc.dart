@@ -17,6 +17,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final user = auth.currentUser;
       if (user != null) {
         log(user.uid);
+        // reading user data from the firestore
         final userModel = await FirestoreService.readDataFromFirestore(
           email: user.email!,
         );
@@ -24,6 +25,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(UserDataLoaded(usermodel: userModel));
       }
     });
+    
+    //for sign out user
     on<SignOutEvent>((event, emit) async {
       await auth.signOut();
       Get.offAll(() => WelcomePage());

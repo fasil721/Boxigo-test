@@ -23,22 +23,6 @@ class HomePage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          // if (state is UserDataLoaded)
-                          //   Padding(
-                          //     padding: const EdgeInsets.symmetric(horizontal: 10),
-                          //     child: Text(
-                          //       "Welcome ${state.usermodel?.fullName} !!",
-                          //       style: GoogleFonts.poppins(
-                          //         color: const Color(0xff14B8A6),
-                          //         fontWeight: FontWeight.bold,
-                          //         fontSize: 20,
-                          //       ),
-                          //       textAlign: TextAlign.center,
-                          //       maxLines: 2,
-                          //       overflow: TextOverflow.ellipsis,
-                          //     ),
-                          //   )
-                          // else
                           const SizedBox(),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -90,8 +74,8 @@ class HomePage extends StatelessWidget {
               body: Center(
                 child: CircularProgressIndicator(
                   color: Colors.grey.shade700,
-                  strokeWidth: 2,
-                  backgroundColor: Colors.cyanAccent,
+                  strokeWidth: 3,
+                  backgroundColor: const Color(0xff14B8A6),
                 ),
               ),
             );

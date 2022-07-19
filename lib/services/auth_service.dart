@@ -11,6 +11,7 @@ import 'package:machine_test/services/firestore_service.dart';
 import 'package:machine_test/utils/flutter_toast.dart';
 
 class AuthService {
+  //sign in with google auth
   static Future<void> signInWithGoogle() async {
     try {
       final googleuser = await GoogleSignIn().signIn();
@@ -24,6 +25,7 @@ class AuthService {
         await FirebaseAuth.instance.signInWithCredential(credential).then(
           (creadential) {
             if (creadential.user != null) {
+              //storing the signed user data to firestore
               FirestoreService.postDetailsToFirestore(
                 uid: creadential.user!.uid,
                 fullName: creadential.user!.displayName ?? '',
@@ -34,6 +36,7 @@ class AuthService {
           },
         );
       }
+      //its for detect firebase validation
     } on FirebaseAuthException catch (err) {
       log("error code: ${err.code}");
       log("error message : ${err.message}");
@@ -45,7 +48,7 @@ class AuthService {
       log("error : $err");
     }
   }
-
+  // sign up with email and password
   static Future<void> signUpWithEmailAndPassword(
     String email,
     String password,
@@ -54,9 +57,11 @@ class AuthService {
   ) async {
     final auth = FirebaseAuth.instance;
     try {
+      
       await auth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((creadential) {
+        //storing the user data to firestore
         FirestoreService.postDetailsToFirestore(
           uid: creadential.user!.uid,
           fullName: fulllName,
@@ -64,6 +69,7 @@ class AuthService {
           email: email,
         );
       });
+      //detect for firebase validations
     } on FirebaseAuthException catch (err) {
       log("error code: ${err.code}");
       if (err.message != null) {
@@ -77,7 +83,7 @@ class AuthService {
       log("error : $err");
     }
   }
-
+  // sign in with email and passwoed
   static Future<void> signInWithEmailAndPassword(
     String email,
     String password,
@@ -90,6 +96,7 @@ class AuthService {
         log('Sign up successfully');
         Get.offAll(() => const HomePage());
       });
+      //detect for firebase side validations
     } on FirebaseAuthException catch (err) {
       log("error code: ${err.code}");
       if (err.message != null) {
